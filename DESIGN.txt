@@ -1,0 +1,14 @@
+Game: Rooster Roaster
+Genre: 2-D Top Down Scrolling Shooter
+
+Back story: After years of consuming poultry the fowl beasts have risen up in defense!
+It is up to you to re-domesticate these rebel roosters and restore the gains to the world.
+
+Goal: Shoot all the chickens/roosters to advance to the next level. Each level gets harder
+with more foes. Eventually the boss rooster will be reached and upon defeating him
+you will win the game
+
+Mechanics: Arrow keys to move, space bar to shoot, avoid the rooster poop and chicken eggs.
+
+Each of the ordinary levels will be composed of small chickens and roosters that have simple
+attacks and movements. The boss will be much stronger, look different, and have different attacks.
