@@ -13,12 +13,12 @@ import javafx.util.Duration;
  * @author Robert C. Duvall
  */
 public class Main extends Application {
-    public static final int SIZE = 400;
+    public static final int SIZE = 600;
     public static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
-    private ExampleGame myGame;
+    private RoosterRoasterGame myGame;
 
 
     /**
@@ -27,7 +27,7 @@ public class Main extends Application {
     @Override
     public void start (Stage s) {
         // create your own game here
-        myGame = new ExampleGame();
+        myGame = new RoosterRoasterGame();
         s.setTitle(myGame.getTitle());
 
         // attach game to the stage and display it
