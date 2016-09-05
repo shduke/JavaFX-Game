@@ -10,14 +10,15 @@ public class Player extends Entity{
 	private int lives;
 	private int score;
 	private int moveSpeed;
-	private String Direction;
+	private int direction;
 	private ImageView playerNode; //not used
 	private Firing firingDelegate;
 	
 	private HashMap<String, Image> animation;
 	
 	
-	Player(int x, int y) {
+	Player(int x, int y, EntityManager entityManager) {
+		super(entityManager);
 		lives = 3;
 		score = 0;
 		moveSpeed = 5;
@@ -27,6 +28,7 @@ public class Player extends Entity{
 		Point2D centerPoint = centerAdjusted(x, y);
 		updateCoordinate(centerPoint.getX(), centerPoint.getY());
 		firingDelegate = new Firing(this);
+		entityManager.addEntity(this);
 	}
 	
 	//Is this ok to have? not used
@@ -35,7 +37,7 @@ public class Player extends Entity{
 	}
 	
 	public Bullet shoot(Group root) {
-		return firingDelegate.shoot(root);
+		return firingDelegate.shoot(root, entityManager);
 	}
 	
 	private void loadAnimations(){
@@ -55,26 +57,31 @@ public class Player extends Entity{
 	}*/
 	
 	public void moveRight() {
-		if(Direction != "RIGHT") {
+		if(direction != 1) {
 			playerNode.setImage(animation.get("RIGHT"));
+			direction = 1;
 		}
+		//myBouncer.setX(myBouncer.getX() + myBouncerDirection * BOUNCER_SPEED * elapsedTime);
 		updateCoordinate(coordinate.getX() + moveSpeed, coordinate.getY());
 	}
 	public void moveLeft() {
-		if(Direction != "LEFT") {
+		if(direction != -1) {
 			playerNode.setImage(animation.get("LEFT"));
+			direction = -1;
 		}
 		updateCoordinate(coordinate.getX() - moveSpeed, coordinate.getY());
 	}
 	public void moveUp() {
-		if(Direction != "CENTER") {
+		if(direction != 2) {
 			playerNode.setImage(animation.get("CENTER"));
+			direction = 2;
 		}
 		updateCoordinate(coordinate.getX(), coordinate.getY() - moveSpeed);
 	}
 	public void moveDown() {
-		if(Direction != "CENTER") {
+		if(direction != -2) {
 			playerNode.setImage(animation.get("CENTER"));
+			direction = -2;
 		}
 		updateCoordinate(coordinate.getX(), coordinate.getY() + moveSpeed);
 	}

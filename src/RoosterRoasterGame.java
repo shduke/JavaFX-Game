@@ -16,6 +16,7 @@ public class RoosterRoasterGame {
 	private Player player;
 	private Group root;
 	private int level;
+	private EntityManager entityManager;
 	
     /**
      * Returns name of the game.
@@ -29,6 +30,7 @@ public class RoosterRoasterGame {
 		//player = new Player(myScene.getWidth() / 2 - player.getPlayerNode().getBoundsInLocal().getWidth() / 2, myScene.getHeight() / 2  - player.getPlayerNode().getBoundsInLocal().getHeight() / 2);
         root = new Group();
 		myScene = new Scene(root, width, height, Color.WHITE);
+		entityManager = new EntityManager();
 
         Canvas canvas = new Canvas( 400, 200 );
         root.getChildren().add( canvas );
@@ -41,7 +43,7 @@ public class RoosterRoasterGame {
         gc.fillText( "Rooster Roaster", 60, 50 );
         gc.strokeText( "Rooster Roaster", 60, 50 );
         
-		player = new Player(width / 2, height / 2);
+		player = new Player(width / 2, height / 2, entityManager);
 		player.setPlayerNode(root);
 		
 		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
@@ -51,7 +53,7 @@ public class RoosterRoasterGame {
 
     //game-loop
 	public void step (double elapsedTime) {
-		
+		entityManager.updateAllPostionsInFrame();
 	}
 	
     private void handleKeyInput (KeyCode code) {

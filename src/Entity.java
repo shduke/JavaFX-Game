@@ -5,15 +5,24 @@ import javafx.scene.Node;
 public class Entity {
 	protected Point2D coordinate; //top left of center
 	protected Node node;
+	protected EntityManager entityManager;
 	
+	Entity(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 	
 	public void updateCoordinate(double x, double y) {
 		coordinate = new Point2D(x, y);
 		//Point2D centerCoordinate = center();
-		node.setLayoutX(x);
-        node.setLayoutY(y);
+		//node.setLayoutX(x);
+        //node.setLayoutY(y);
 		//coordinate = center();
 		//this.coordinate = coordinate;
+	}
+	
+	public void updatePositionInFrame() {
+		node.setLayoutX(coordinate.getX());
+        node.setLayoutY(coordinate.getY());
 	}
 	
 	//where the bottom right coordinate of the image has to be for the image to be centered on the specified coordinate

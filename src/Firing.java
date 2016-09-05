@@ -12,9 +12,9 @@ public class Firing {
 		angle = 90;
 	}
 	
-	public Bullet shoot(Group root) {
+	public Bullet shoot(Group root, EntityManager entityManager) {
 		projectileSpawnCoordinate = new Point2D(shooter.centerReal().getX(), shooter.centerReal().getY());
-		Bullet bullet = new Bullet(shooter, projectileSpawnCoordinate);
+		Bullet bullet = new Bullet(shooter, projectileSpawnCoordinate, entityManager);
 		bullet.setPlayerNode(root);
 		return bullet;
 	}
