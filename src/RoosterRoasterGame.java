@@ -43,7 +43,7 @@ public class RoosterRoasterGame {
         gc.fillText( "Rooster Roaster", 60, 50 );
         gc.strokeText( "Rooster Roaster", 60, 50 );
         
-		player = new Player(width / 2, height / 2, entityManager);
+		player = new Player(width / 2, height / 1.1, entityManager);
 		player.setPlayerNode(root);
 		
 		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
@@ -54,6 +54,7 @@ public class RoosterRoasterGame {
     //game-loop
 	public void step (double elapsedTime) {
 		entityManager.updateAllPostionsInFrame();
+		entityManager.updateAllCoordinates(elapsedTime);
 	}
 	
     private void handleKeyInput (KeyCode code) {

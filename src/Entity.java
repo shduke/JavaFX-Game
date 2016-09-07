@@ -2,7 +2,11 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-public class Entity {
+interface movement {
+	void move(double elapsedTime);
+}
+
+abstract public class Entity implements movement{
 	protected Point2D coordinate; //top left of center
 	protected Node node;
 	protected EntityManager entityManager;
@@ -39,5 +43,10 @@ public class Entity {
 	public void setPlayerNode(Group root) {
 		root.getChildren().add(node);
 	}
+	
+	//how to use polymorphism // interfaces
+	/*public void move(Double elapsedTime) {
+		return;
+	}*/
 	
 }

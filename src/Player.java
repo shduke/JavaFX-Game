@@ -17,11 +17,11 @@ public class Player extends Entity{
 	private HashMap<String, Image> animation;
 	
 	
-	Player(int x, int y, EntityManager entityManager) {
+	Player(double x, double y, EntityManager entityManager) {
 		super(entityManager);
 		lives = 3;
 		score = 0;
-		moveSpeed = 5;
+		moveSpeed = 10;
 		loadAnimations();
 		node = new ImageView(animation.get("CENTER"));
 		playerNode = (ImageView)node;
@@ -36,7 +36,7 @@ public class Player extends Entity{
 		return playerNode;
 	}
 	
-	public Bullet shoot(Group root) {
+	public Fork shoot(Group root) {
 		return firingDelegate.shoot(root, entityManager);
 	}
 	
@@ -50,11 +50,15 @@ public class Player extends Entity{
 	
 	//how to consolidate this?
 	/*public void move(String direction) {
-		if(Direction != direction) {
+		if(this.direction != direction) {
 			playerNode.setImage(animation.get(direction));
 		}
 		updateCoordinate(coordinate.getX() + moveSpeed, coordinate.getY() + moveSpeed);
 	}*/
+	
+	public void move(double elapsedTime) {
+		return;
+	}
 	
 	public void moveRight() {
 		if(direction != 1) {
