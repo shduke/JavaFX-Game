@@ -1,4 +1,6 @@
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -8,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class RoosterRoasterGame {
     public static final String TITLE = "Rooster Roaster";
@@ -44,13 +47,19 @@ public class RoosterRoasterGame {
         gc.strokeText( "Rooster Roaster", 60, 50 );
         
 		player = new Player(width / 2, height / 1.1, entityManager);
-		player.setPlayerNode(root);
+		//player.setPlayerNode(root);
+		Level levelOne = new Level(1, player, myScene, entityManager);
+		myScene.setRoot(levelOne.GenerateSceneGraph());
+		/*for(int i = 0; i < 10; i++) {
+			Point2D spawnPoint = new Point2D(width / 2 - i * 2, height / 2 - i * 2);
+			Chicken Enemy = new Chicken(entityManager, spawnPoint);
+		}*/
 		
 		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 		return myScene;
 	}
 	
-
+	
     //game-loop
 	public void step (double elapsedTime) {
 		entityManager.updateAllPostionsInFrame();
@@ -72,7 +81,7 @@ public class RoosterRoasterGame {
             	player.moveDown();
                 break;
             case SPACE:
-            	player.shoot(root);
+            	player.shoot((Group)myScene.getRoot());
             	break;
             default:
                 // do nothing

@@ -36,8 +36,8 @@ public class Player extends Entity{
 		return playerNode;
 	}
 	
-	public Fork shoot(Group root) {
-		return firingDelegate.shoot(root, entityManager);
+	public void shoot(Group root) {
+		firingDelegate.shoot(root, entityManager);
 	}
 	
 	private void loadAnimations(){

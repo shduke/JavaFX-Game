@@ -14,10 +14,9 @@ public class Firing {
 	
 	
 	//Reflection to figure out what bullet to use?
-	public Fork shoot(Group root, EntityManager entityManager) {
+	public void shoot(Group root, EntityManager entityManager) {
 		projectileSpawnCoordinate = new Point2D(shooter.centerReal().getX(), shooter.centerReal().getY());
 		Fork bullet = new Fork(shooter, projectileSpawnCoordinate, entityManager);
 		bullet.setPlayerNode(root);
-		return bullet;
 	}
 }

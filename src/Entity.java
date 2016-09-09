@@ -35,6 +35,18 @@ abstract public class Entity implements movement{
 		return centerAdjustedCoordinate;
 	}
 	
+	public Point2D adjustCoordinatesToJustOffEdge(Point2D coordinate) {
+		double x = coordinate.getX();
+		double y = coordinate.getY();
+		if(coordinate.getX() == 0) {
+			x -= node.getBoundsInLocal().getWidth();
+		}
+		if(coordinate.getY() == 0) {
+			y -= node.getBoundsInLocal().getHeight();
+		}
+		return new Point2D(x, y);
+	}
+	
 	public Point2D centerReal() {
 		Point2D centerRealCoordinate = new Point2D(coordinate.getX() + (node.getBoundsInLocal().getWidth() / 2), coordinate.getY() - (node.getBoundsInLocal().getHeight() / 2));
 		return centerRealCoordinate;

@@ -12,6 +12,7 @@ public class Fork extends Projectile{
 	Fork(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
 		super(shooterNode, spawn, entityManager);
 		forkNode = (ImageView)node;
+		setMoveSpeed(-50);
 	}
 	
 	public void move(double elapsedTime) {
@@ -22,6 +23,7 @@ public class Fork extends Projectile{
 		moveSpeed = speed;
 	}
 
+	
 	String getBulletType() {
 		return PROJECTILE_TYPE;
 	}

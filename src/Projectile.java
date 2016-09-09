@@ -6,8 +6,6 @@ abstract public class Projectile extends Entity {
 
 	Projectile(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
 		super(entityManager);
-		
-		setMoveSpeed(-20);
         Image image = new Image(getClass().getClassLoader().getResourceAsStream(getBulletType() + ".png"), 100, 50, true, true);
 		node = new ImageView(image);
 		updateCoordinate(spawn.getX(), spawn.getY());
