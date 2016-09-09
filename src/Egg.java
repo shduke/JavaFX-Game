@@ -4,13 +4,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Egg extends Projectile{
-	private static final String PROJECTILE_TYPE = "egg";
 	private ImageView eggNode;
 	private double moveSpeed;
 	
 
 	Egg(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, spawn, entityManager);
+		super(shooterNode, spawn, entityManager, "egg");
 		eggNode = (ImageView)node;
 	}
 	
@@ -22,12 +21,9 @@ public class Egg extends Projectile{
 		moveSpeed = speed;
 	}
 
-	String getBulletType() {
-		return PROJECTILE_TYPE;
-	}
-
 	@Override
 	double getMoveSpeed() {
 		return moveSpeed;
 	}
+
 }

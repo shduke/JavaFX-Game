@@ -49,13 +49,15 @@ public class RoosterRoasterGame {
 		player = new Player(width / 2, height / 1.1, entityManager);
 		//player.setPlayerNode(root);
 		Level levelOne = new Level(1, player, myScene, entityManager);
-		myScene.setRoot(levelOne.GenerateSceneGraph());
+		root = levelOne.GenerateSceneGraph();
+		myScene.setRoot(root);
 		/*for(int i = 0; i < 10; i++) {
 			Point2D spawnPoint = new Point2D(width / 2 - i * 2, height / 2 - i * 2);
 			Chicken Enemy = new Chicken(entityManager, spawnPoint);
 		}*/
 		
 		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+		myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
 		return myScene;
 	}
 	
@@ -64,6 +66,18 @@ public class RoosterRoasterGame {
 	public void step (double elapsedTime) {
 		entityManager.updateAllPostionsInFrame();
 		entityManager.updateAllCoordinates(elapsedTime);
+		entityManager.checkAllCollision();
+		entityManager.checkAllForDeletion(root);
+		//myScene.setRoot(root);
+	}
+	
+	private void handleKeyRelease(KeyCode code) {
+		switch (code) {
+			case SPACE:
+            	player.shoot((Group)myScene.getRoot());
+            	break;
+        	default:
+		}
 	}
 	
     private void handleKeyInput (KeyCode code) {
@@ -80,9 +94,6 @@ public class RoosterRoasterGame {
             case DOWN:
             	player.moveDown();
                 break;
-            case SPACE:
-            	player.shoot((Group)myScene.getRoot());
-            	break;
             default:
                 // do nothing
         }

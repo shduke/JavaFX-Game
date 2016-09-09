@@ -2,14 +2,18 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-abstract public class Projectile extends Entity {
+interface Collidable {
+	void checkCollision(Entity Collidable);
+}
 
-	Projectile(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
+abstract public class Projectile extends Entity implements Collidable{
+
+	Projectile(Entity shooterNode, Point2D spawn, EntityManager entityManager, String type) {
 		super(entityManager);
-        Image image = new Image(getClass().getClassLoader().getResourceAsStream(getBulletType() + ".png"), 100, 50, true, true);
+		setName(type);
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 100, 50, true, true);
 		node = new ImageView(image);
 		updateCoordinate(spawn.getX(), spawn.getY());
-		entityManager.addEntity(this);
 		entityManager.addProjectile(this);
 	}
 	
@@ -17,15 +21,18 @@ abstract public class Projectile extends Entity {
 //	private double moveSpeed;
 	
 
-	
+	public void checkCollision(Entity collider) {
+		if(collider instanceof Damaged && ((Damaged) collider).getDamagedByTypes().contains(getName()) ) {
+			setDelete(true);
+			((Damaged) collider).didCollide();
+		}
+	}
 	
 	public void move(double elapsedTime) {
 		updateCoordinate(coordinate.getX(), coordinate.getY() + getMoveSpeed() * elapsedTime);
 	}
 	
 	abstract void setMoveSpeed(double speed);
-	
-	abstract String getBulletType();
-	
+		
 	abstract double getMoveSpeed();
 }

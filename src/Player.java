@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.geometry.Point2D;
@@ -5,7 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Player extends Entity{
+public class Player extends Entity implements Damaged{
 
 	private int lives;
 	private int score;
@@ -13,6 +14,7 @@ public class Player extends Entity{
 	private int direction;
 	private ImageView playerNode; //not used
 	private Firing firingDelegate;
+	private ArrayList<String> damagedByType = new ArrayList<String>();
 	
 	private HashMap<String, Image> animation;
 	
@@ -28,7 +30,9 @@ public class Player extends Entity{
 		Point2D centerPoint = centerAdjusted(x, y);
 		updateCoordinate(centerPoint.getX(), centerPoint.getY());
 		firingDelegate = new Firing(this);
-		entityManager.addEntity(this);
+		addDamagedByType("egg");
+		addDamagedByType("bird_poop");
+		setName("player");
 	}
 	
 	//Is this ok to have? not used
@@ -55,6 +59,26 @@ public class Player extends Entity{
 		}
 		updateCoordinate(coordinate.getX() + moveSpeed, coordinate.getY() + moveSpeed);
 	}*/
+	
+	public void addDamagedByType(String name) {
+		damagedByType.add(name);
+	}
+	
+	public void clearDamagedByType() {
+		damagedByType.clear();
+	}
+	
+	public void didCollide() {
+		lives -= 1;
+		if(lives <= 0) {
+			setDelete(true);
+		}
+	}
+	
+	public ArrayList<String> getDamagedByTypes() {
+		return damagedByType;
+	}
+	
 	
 	public void move(double elapsedTime) {
 		return;

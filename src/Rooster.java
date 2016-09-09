@@ -1,14 +1,14 @@
 import javafx.geometry.Point2D;
 
 public class Rooster extends Fowl{
-	private static final String FOWL_TYPE = "rooster";
 	private String bulletType;
 	private double moveSpeed;
 	
 	Rooster(EntityManager entityManager, Point2D coordinate) {
-		super(entityManager, coordinate);
+		super(entityManager, coordinate, "rooster");
 		setBulletType("bird_poop");
 		setMoveSpeed(30);
+		addDamagedByType("fork");
 	}
 
 	public void move(double elapsedTime) {
@@ -27,11 +27,11 @@ public class Rooster extends Fowl{
 		this.moveSpeed = moveSpeed;
 	}
 
-	String getFowlType() {
-		return FOWL_TYPE;
-	}
-
 	double getMoveSpeed() {
 		return moveSpeed;
+	}
+
+	public void didCollide() {
+		setDelete(true);	
 	}
 }

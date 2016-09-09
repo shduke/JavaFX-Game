@@ -2,17 +2,16 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
-interface movement {
-	void move(double elapsedTime);
-}
-
-abstract public class Entity implements movement{
+abstract public class Entity{
 	protected Point2D coordinate; //top left of center
 	protected Node node;
 	protected EntityManager entityManager;
+	protected String name;
+	protected Boolean delete = false;
 	
 	Entity(EntityManager entityManager) {
 		this.entityManager = entityManager;
+		entityManager.addEntity(this);
 	}
 	
 	public void updateCoordinate(double x, double y) {
@@ -56,9 +55,27 @@ abstract public class Entity implements movement{
 		root.getChildren().add(node);
 	}
 	
-	//how to use polymorphism // interfaces
-	/*public void move(Double elapsedTime) {
-		return;
-	}*/
+	public void delete(Group root) {
+		root.getChildren().remove(node);
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Boolean getDelete() {
+		return delete;
+	}
+	
+	public void setDelete(Boolean delete) {
+		this.delete = delete;
+	}
+	
+	abstract void move(double elapsedTime);
+
 	
 }

@@ -92,7 +92,6 @@ public class Level {
 		enemy.setMovementVector(calcVector(enemy.coordinate, generateRandomCoordinate(0, (int) myScene.getWidth(), 0, (int) myScene.getHeight() / 2)));
 		enemy.setBounds(new BoundingBox(0, 0, myScene.getWidth(), myScene.getHeight() / 2));
 		//enemy.setBounds(new Bounds(0, myScene.getWidth() / 2, 0, myScene.getHeight() / 2));
-		entityManager.addEntity(enemy);
 		return enemy;
 	}
 	

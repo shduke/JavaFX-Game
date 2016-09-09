@@ -1,14 +1,16 @@
+import java.util.ArrayList;
+
 import javafx.geometry.Point2D;
 
 public class Chicken extends Fowl{
-	private static final String FOWL_TYPE = "chicken";
 	private String bulletType;
 	private double moveSpeed;
 	
 	Chicken(EntityManager entityManager, Point2D coordinate) {
-		super(entityManager, coordinate);
+		super(entityManager, coordinate, "chicken");
 		setBulletType("egg");
 		setMoveSpeed(30);
+		addDamagedByType("fork");
 	}
 
 	public void move(double elapsedTime) {
@@ -18,6 +20,10 @@ public class Chicken extends Fowl{
 		updateCoordinate(coordinate.getX() + getMovementVector().getX() * moveSpeed * elapsedTime, coordinate.getY() + getMovementVector().getY() * moveSpeed * elapsedTime);
 	}
 	
+	public void didCollide() {
+		setDelete(true);	
+	}
+	
 	public void setBulletType(String bulletType) {
 		this.bulletType = bulletType;
 	}
@@ -25,10 +31,7 @@ public class Chicken extends Fowl{
 	public void setMoveSpeed(double moveSpeed) {
 		this.moveSpeed = moveSpeed;
 	}
-
-	String getFowlType() {
-		return FOWL_TYPE;
-	}
+	
 
 	double getMoveSpeed() {
 		return moveSpeed;

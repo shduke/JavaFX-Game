@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Bounds;
@@ -7,15 +9,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-abstract public class Fowl extends Entity{
+abstract public class Fowl extends Entity implements Damaged{
 	private ImageView fowlNode;
 	private Firing firingDelegate;
 	private Point2D movementVector;
 	protected Bounds bounds;
+	private ArrayList<String> damagedByType = new ArrayList<String>();
 	
-	Fowl(EntityManager entityManager, Point2D coordinate) {
+	Fowl(EntityManager entityManager, Point2D coordinate, String type) {
 		super(entityManager);
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(getFowlType() + ".png"), 30, 30, false, true);
+		setName(type);
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 30, 30, false, true);
 		node = new ImageView(image);
 		fowlNode = (ImageView)node;
 		Point2D adjustedPoint = adjustCoordinatesToJustOffEdge(coordinate);
@@ -23,7 +27,6 @@ abstract public class Fowl extends Entity{
 		//updateCoordinate(coordinate.getX(), coordinate.getY()); //delete this
 		firingDelegate = new Firing(this);
 		setMovementVector(new Point2D(0, 0));
-		entityManager.addEntity(this);
 
 	}
 	
@@ -47,6 +50,7 @@ abstract public class Fowl extends Entity{
 		firingDelegate.shoot(root, entityManager);
 	}
 	
+	
 	public void setBounds(Bounds bounds) {
 		this.bounds = bounds;
 	}
@@ -59,7 +63,17 @@ abstract public class Fowl extends Entity{
 		return movementVector;
 	}
 	
-	abstract String getFowlType();
+	public void addDamagedByType(String name) {
+		damagedByType.add(name);
+	}
+	
+	public void clearDamagedByType() {
+		damagedByType.clear();
+	}
+	
+	public ArrayList<String> getDamagedByTypes() {
+		return damagedByType;
+	}
 	
 	abstract double getMoveSpeed();
 }

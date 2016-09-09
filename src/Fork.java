@@ -1,17 +1,17 @@
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Fork extends Projectile{
-	private static final String PROJECTILE_TYPE = "fork";
-	private ImageView forkNode;
+	//private ImageView forkNode;
 	private double moveSpeed;
 	
 
 	Fork(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, spawn, entityManager);
-		forkNode = (ImageView)node;
+		super(shooterNode, spawn, entityManager, "fork");
+		//forkNode = (ImageView)node;
 		setMoveSpeed(-50);
 	}
 	
@@ -23,13 +23,9 @@ public class Fork extends Projectile{
 		moveSpeed = speed;
 	}
 
-	
-	String getBulletType() {
-		return PROJECTILE_TYPE;
-	}
-
 	@Override
-	double getMoveSpeed() {
+	public double getMoveSpeed() {
 		return moveSpeed;
 	}
+	
 }
