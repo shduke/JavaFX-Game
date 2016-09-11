@@ -5,13 +5,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Fork extends Projectile{
-	//private ImageView forkNode;
 	private double moveSpeed;
 	
 
 	Fork(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, spawn, entityManager, "fork");
-		//forkNode = (ImageView)node;
+		super(shooterNode, entityManager, "fork");
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 50, 50, true, true);
+		node = new ImageView(image);
+		updateCoordinate(spawn.getX(), spawn.getY());
 		setMoveSpeed(-50);
 	}
 	

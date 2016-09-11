@@ -1,4 +1,5 @@
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 
 public class Rooster extends Fowl{
 	private String bulletType;
@@ -6,11 +7,11 @@ public class Rooster extends Fowl{
 	
 	Rooster(EntityManager entityManager, Point2D coordinate) {
 		super(entityManager, coordinate, "rooster");
-		setBulletType("bird_poop");
 		setMoveSpeed(30);
 		addDamagedByType("fork");
 		setLives(2);
 		setPoints(20);
+		setFireRate(4000);
 	}
 
 	public void move(double elapsedTime) {
@@ -21,8 +22,8 @@ public class Rooster extends Fowl{
 		}
 	}
 	
-	public void setBulletType(String bulletType) {
-		this.bulletType = bulletType;
+	public void shoot(Group root) {
+		getFiringDelegate().shoot(root, entityManager, "bird_poop");
 	}
 	
 	public void setMoveSpeed(double moveSpeed) {

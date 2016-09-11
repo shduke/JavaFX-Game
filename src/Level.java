@@ -78,7 +78,7 @@ public class Level {
 	}
 	
 	public void spawnEnemies(Group root) {
-		Timeline timer = new Timeline(new KeyFrame(Duration.millis(1000), e -> generateEnemy().setPlayerNode(root) ));
+		Timeline timer = new Timeline(new KeyFrame(Duration.millis(1000), e -> generateEnemy(root).setPlayerNode(root) ));
 		timer.setCycleCount(enemies);
 		timer.play();
 	}
@@ -97,7 +97,7 @@ public class Level {
 		return normalizedVector;
 	}
 	
-	private Fowl generateEnemy() {
+	private Fowl generateEnemy(Group root) {
 		Point2D spawnCoordinate = generateFowlSpawnCoordinate();
 		//System.out.println("SpawnC: " + spawnCoordinate);
 		Fowl enemy;
@@ -109,7 +109,7 @@ public class Level {
 		enemies--;
 		enemy.setMovementVector(calcVector(enemy.coordinate, generateRandomCoordinate(0, (int) myScene.getWidth(), 0, (int) myScene.getHeight() / 2)));
 		enemy.setBounds(new BoundingBox(0, 0, myScene.getWidth(), myScene.getHeight() / 2));
-		//enemy.setBounds(new Bounds(0, myScene.getWidth() / 2, 0, myScene.getHeight() / 2));
+		enemy.startShootTimer(root);
 		return enemy;
 	}
 	

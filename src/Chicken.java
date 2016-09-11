@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 
 public class Chicken extends Fowl{
 	private String bulletType;
@@ -8,11 +9,11 @@ public class Chicken extends Fowl{
 	
 	Chicken(EntityManager entityManager, Point2D coordinate) {
 		super(entityManager, coordinate, "chicken");
-		setBulletType("egg");
 		setMoveSpeed(30);
 		addDamagedByType("fork");
 		setLives(1);
 		setPoints(10);
+		setFireRate(8000);
 	}
 
 	public void move(double elapsedTime) {
@@ -22,13 +23,13 @@ public class Chicken extends Fowl{
 		updateCoordinate(coordinate.getX() + getMovementVector().getX() * moveSpeed * elapsedTime, coordinate.getY() + getMovementVector().getY() * moveSpeed * elapsedTime);
 	}
 	
+	public void shoot(Group root) {
+		getFiringDelegate().shoot(root, entityManager, "egg");
+	}
+	
 	public void didCollide() {
 		setLives(getLives() - 1);
 		checkForDeletion();
-	}
-	
-	public void setBulletType(String bulletType) {
-		this.bulletType = bulletType;
 	}
 	
 	public void setMoveSpeed(double moveSpeed) {

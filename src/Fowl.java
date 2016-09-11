@@ -7,6 +7,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 abstract public class Fowl extends Entity implements Damaged{
@@ -17,6 +18,8 @@ abstract public class Fowl extends Entity implements Damaged{
 	private ArrayList<String> damagedByType = new ArrayList<String>();
 	private int lives;
 	private int points;
+	private Timeline shootTimer;
+	private int fireRate;
 	
 	Fowl(EntityManager entityManager, Point2D coordinate, String type) {
 		super(entityManager);
@@ -29,7 +32,6 @@ abstract public class Fowl extends Entity implements Damaged{
 		//updateCoordinate(coordinate.getX(), coordinate.getY()); //delete this
 		firingDelegate = new Firing(this);
 		setMovementVector(new Point2D(0, 0));
-
 	}
 	
 	
@@ -47,10 +49,16 @@ abstract public class Fowl extends Entity implements Damaged{
 		}
 	}
 	
-	
-	public void shoot(Group root) {
-		firingDelegate.shoot(root, entityManager);
+	public void startShootTimer(Group root) {
+		shootTimer = new Timeline(new KeyFrame(Duration.millis(getFireRate()), e -> shoot(root)));
+		shootTimer.setCycleCount(MediaPlayer.INDEFINITE);
+		shootTimer.play();
 	}
+	
+	abstract public void shoot(Group root);
+	/*public void shoot(Group root) {
+		firingDelegate.shoot(root, entityManager);
+	}*/
 	
 	
 	public void setBounds(Bounds bounds) {
@@ -76,6 +84,7 @@ abstract public class Fowl extends Entity implements Damaged{
 	public void checkForDeletion() {
 		if(lives <= 0) {
 			setDelete(true);
+			shootTimer.stop();
 			entityManager.setAdditionalPoints(entityManager.getAdditionalPoints() + getPoints());
 		}
 	}
@@ -96,9 +105,22 @@ abstract public class Fowl extends Entity implements Damaged{
 		return points;
 	}
 	
+	public Firing getFiringDelegate(){
+		return firingDelegate;
+	}
+	
 	public void setPoints(int points) {
 		this.points = points;
 	}
 	
+	public void setFireRate(int fireRate) {
+		this.fireRate = fireRate;
+	}
+	
+	public int getFireRate() {
+		return fireRate;
+	}
+	
 	abstract double getMoveSpeed();
+	
 }

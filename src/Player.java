@@ -42,7 +42,7 @@ public class Player extends Entity implements Damaged{
 	}
 	
 	public void shoot(Group root) {
-		firingDelegate.shoot(root, entityManager);
+		firingDelegate.shoot(root, entityManager, "fork");
 	}
 	
 	private void loadAnimations(){

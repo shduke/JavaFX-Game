@@ -4,13 +4,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Egg extends Projectile{
-	private ImageView eggNode;
 	private double moveSpeed;
 	
 
 	Egg(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, spawn, entityManager, "egg");
-		eggNode = (ImageView)node;
+		super(shooterNode, entityManager, "egg");
+		setName("egg");
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 20, 30, true, true);
+		node = new ImageView(image);
+		updateCoordinate(spawn.getX(), spawn.getY());
+		setMoveSpeed(60);
 	}
 	
 	public void move(double elapsedTime) {

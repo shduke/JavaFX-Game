@@ -9,9 +9,12 @@ public class BirdPoop extends Projectile{
 	
 
 	BirdPoop(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, spawn, entityManager, "bird_poop");
-		birdPoopNode = (ImageView)node;
+		super(shooterNode, entityManager, "bird_poop");
 		setName("bird_poop");
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 15, 15, true, true);
+		node = new ImageView(image);
+		updateCoordinate(spawn.getX(), spawn.getY());
+		setMoveSpeed(30);
 	}
 	
 	public void move(double elapsedTime) {
