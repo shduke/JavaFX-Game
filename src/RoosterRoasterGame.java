@@ -1,3 +1,5 @@
+import com.sun.glass.events.KeyEvent;
+
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.BoundingBox;
@@ -25,6 +27,7 @@ public class RoosterRoasterGame {
 	private int levelNumber;
 	private Level level;
 	private EntityManager entityManager;
+	private GameOver gameOver;
 	
     /**
      * Returns name of the game.
@@ -35,32 +38,46 @@ public class RoosterRoasterGame {
 	
 	//initializes the starting Scene graph
 	public Scene init(int width, int height) {
-		levelNumber = 0;
         root = new Group();
 		myScene = new Scene(root, width, height, Color.WHITE);
-		entityManager = new EntityManager();
-        
-		player = new Player(width / 2, height / 1.1, entityManager);
-		//level = new Level(1, player, myScene, entityManager);
-		//root = level.GenerateSceneGraph();
-
-		Menu menu = new Menu();
-		root = menu.GenerateSceneGraph(myScene);
-
+		//startMenu();
+		/*Menu menu = new Menu();
+		root = menu.GenerateSceneGraph(myScene);*/
+		GameOver go = new GameOver(myScene, true, 100);
+		Group root = go.GameEnded();
 		myScene.setRoot(root);
-		
-		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-		myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
+		myScene.setOnKeyPressed(e -> handleGameOverKeyReleased(e.getCode()));
 		return myScene;
 	}
 	
+	public void startMenu() {
+		levelNumber = 0;
+		Menu menu = new Menu();
+		root = menu.GenerateSceneGraph(myScene);
+		myScene.setRoot(root); //redundant
+		myScene.setOnKeyPressed(e -> {});
+		myScene.setOnKeyReleased(e -> handleMenuKeyReleased(e.getCode()));
+	}
+	
+	public void checkGameOver() {
+		Boolean outcome = false;
+		if(levelNumber >= 5) {
+			outcome = true;
+		} else if(player.getLives() > 0){
+			return;
+		}
+		gameOver = new GameOver(myScene, outcome, player.getScore());
+		myScene.setRoot(gameOver.GameEnded());
+		myScene.setOnKeyPressed(e -> {});
+		myScene.setOnKeyReleased(e -> startMenu());
+	}
 
 	
     //game-loop
 	public void step (double elapsedTime) {
 		if(levelNumber != 0) {
-		entityManager.updateAllPostionsInFrame();
 		entityManager.updateAllCoordinates(elapsedTime);
+		entityManager.updateAllPostionsInFrame();
 		entityManager.checkAllProjectilesInBounds(new BoundingBox(0, 0, myScene.getWidth(), myScene.getHeight()));
 		entityManager.checkAllCollision();
 		entityManager.checkAllForDeletion(root);
@@ -89,6 +106,41 @@ public class RoosterRoasterGame {
 		}
 	}
 	
+	public void startGame() {
+		levelNumber = 0;
+		entityManager = new EntityManager();
+		player = new Player(myScene.getWidth() / 2, myScene.getHeight() / 1.1, entityManager);
+		nextLevel();
+		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+		myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
+	}
+	
+	public void nextLevel() {
+		entityManager.ClearAll(true);
+		levelNumber += 1;
+		player.setLevel(levelNumber);
+		level = new Level(player, myScene, entityManager);
+		root = level.GenerateSceneGraph();
+		myScene.setRoot(root);
+	}
+	
+	private void handleMenuKeyReleased(KeyCode code) {
+		switch (code) {
+			case SPACE:
+				startGame();
+				break;
+			default:
+		}
+	}
+	
+	private void handleGameOverKeyReleased(KeyCode code) {
+		switch (code) {
+			case M:
+				startMenu();
+				break;
+			default:
+		}
+	}
 	
 	private void handleKeyRelease(KeyCode code) {
 		switch (code) {
@@ -113,8 +165,32 @@ public class RoosterRoasterGame {
             case DOWN:
             	player.moveDown();
                 break;
+            case DIGIT0:
+            	startMenu();
+            	break;
+            case DIGIT1:
+            	startGame();
+            	break;
+            case DIGIT2:
+            	nextLevel();
+            	break;
+            case DIGIT3:
+            	break;
+            	//BOSSLEVEL;
+            case DIGIT4:
+        		gameOver = new GameOver(myScene, false, player.getScore());
+        		myScene.setRoot(gameOver.GameEnded());
+        		myScene.setOnKeyPressed(e -> {});
+        		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
+            	break;
+            case DIGIT5:
+        		gameOver = new GameOver(myScene, true, player.getScore());
+        		myScene.setRoot(gameOver.GameEnded());
+        		myScene.setOnKeyPressed(e -> {});
+        		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
+            	break;
+            	
             default:
-                // do nothing
         }
     }
 

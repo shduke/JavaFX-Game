@@ -13,7 +13,7 @@ public class Chicken extends Fowl{
 		addDamagedByType("fork");
 		setLives(1);
 		setPoints(10);
-		setFireRate(8000);
+		setFireRate(10000);
 	}
 
 	public void move(double elapsedTime) {

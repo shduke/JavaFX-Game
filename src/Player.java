@@ -123,6 +123,10 @@ public class Player extends Entity implements Damaged{
 		this.score = score;
 	}
 	
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
 	public int getLevel() {
 		return level;
 	}

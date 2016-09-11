@@ -20,8 +20,8 @@ public class Level {
 	private EntityManager entityManager;
 	
 	//Should I just inherit from RRGame?
-	Level(int level, Player player, Scene myScene, EntityManager entityManager) {
-		this.level = level;
+	Level(Player player, Scene myScene, EntityManager entityManager) {
+		this.level = player.getLevel();
 		this.player = player;
 		this.myScene = myScene;
 		this.entityManager = entityManager;
@@ -78,7 +78,7 @@ public class Level {
 	}
 	
 	public void spawnEnemies(Group root) {
-		Timeline timer = new Timeline(new KeyFrame(Duration.millis(1000), e -> generateEnemy(root).setPlayerNode(root) ));
+		Timeline timer = new Timeline(new KeyFrame(Duration.millis(1000), e -> generateEnemy(root).setPlayerNode(root)));
 		timer.setCycleCount(enemies);
 		timer.play();
 	}

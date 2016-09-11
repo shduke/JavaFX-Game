@@ -75,5 +75,22 @@ public class EntityManager {
 			entity.move(elapsedTime);
 		}
 	}
+	
+	public void ClearAll(Boolean keepPlayer) {
+		if(keepPlayer){
+			Player player = null;
+			for(Entity entity: entities) {
+				if(entity instanceof Player) {
+					player = (Player)entity;
+				}
+			}
+			entities.clear();
+			addEntity(player);
+		}else {
+			entities.clear();
+		}
+		projectiles.clear();
+		setAdditionalPoints(0);
+	}
 
 }

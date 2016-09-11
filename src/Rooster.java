@@ -11,7 +11,7 @@ public class Rooster extends Fowl{
 		addDamagedByType("fork");
 		setLives(2);
 		setPoints(20);
-		setFireRate(4000);
+		setFireRate(8000);
 	}
 
 	public void move(double elapsedTime) {
