@@ -1,3 +1,4 @@
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,6 +27,12 @@ abstract public class Projectile extends Entity implements Collidable{
 			setDelete(true);
 			((Damaged) collider).didCollide();
 			//if(this instanceof Fork && collider instanceof Fowl)
+		}
+	}
+	
+	public void checkInBounds(Bounds bounds) {
+		if(bounds.contains(coordinate) == false) {
+			setDelete(true);
 		}
 	}
 	

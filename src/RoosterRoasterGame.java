@@ -1,5 +1,6 @@
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -34,34 +35,19 @@ public class RoosterRoasterGame {
 	
 	//initializes the starting Scene graph
 	public Scene init(int width, int height) {
-		//player = new Player(myScene.getWidth() / 2 - player.getPlayerNode().getBoundsInLocal().getWidth() / 2, myScene.getHeight() / 2  - player.getPlayerNode().getBoundsInLocal().getHeight() / 2);
+		levelNumber = 0;
         root = new Group();
 		myScene = new Scene(root, width, height, Color.WHITE);
 		entityManager = new EntityManager();
-
-        Canvas canvas = new Canvas( 400, 200 );
-        root.getChildren().add( canvas );
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill( Color.RED );
-        gc.setStroke( Color.BLACK );
-        gc.setLineWidth(2);
-        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
-        gc.setFont( theFont );
-        gc.fillText( "Rooster Roaster", 60, 50 );
-        gc.strokeText( "Rooster Roaster", 60, 50 );
-        
-       // HBox hbox = new HBox();
-        //hbox.getChildren().addAll(new Label("Score"), new Label("Level"), new Label("Lives"));
         
 		player = new Player(width / 2, height / 1.1, entityManager);
-		//player.setPlayerNode(root);
-		level = new Level(1, player, myScene, entityManager);
-		root = level.GenerateSceneGraph();
+		//level = new Level(1, player, myScene, entityManager);
+		//root = level.GenerateSceneGraph();
+
+		Menu menu = new Menu();
+		root = menu.GenerateSceneGraph(myScene);
+
 		myScene.setRoot(root);
-		/*for(int i = 0; i < 10; i++) {
-			Point2D spawnPoint = new Point2D(width / 2 - i * 2, height / 2 - i * 2);
-			Chicken Enemy = new Chicken(entityManager, spawnPoint);
-		}*/
 		
 		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 		myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
@@ -72,14 +58,17 @@ public class RoosterRoasterGame {
 	
     //game-loop
 	public void step (double elapsedTime) {
+		if(levelNumber != 0) {
 		entityManager.updateAllPostionsInFrame();
 		entityManager.updateAllCoordinates(elapsedTime);
+		entityManager.checkAllProjectilesInBounds(new BoundingBox(0, 0, myScene.getWidth(), myScene.getHeight()));
 		entityManager.checkAllCollision();
 		entityManager.checkAllForDeletion(root);
 		updateScore(entityManager.getAdditionalPoints());
 		entityManager.setAdditionalPoints(0);
 		updateDisplay();
 		//myScene.setRoot(root);
+		}
 	}
 
 	

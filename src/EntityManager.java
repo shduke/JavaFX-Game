@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -39,6 +40,12 @@ public class EntityManager {
 			}
 		}
 	}
+	}
+	
+	public void checkAllProjectilesInBounds(Bounds bounds) {
+		for(Projectile projectile : projectiles) {
+			projectile.checkInBounds(bounds);
+		}
 	}
 	
 	public void setAdditionalPoints(int additionalPoints) {
