@@ -9,6 +9,8 @@ public class Rooster extends Fowl{
 		setBulletType("bird_poop");
 		setMoveSpeed(30);
 		addDamagedByType("fork");
+		setLives(2);
+		setPoints(20);
 	}
 
 	public void move(double elapsedTime) {
@@ -32,6 +34,7 @@ public class Rooster extends Fowl{
 	}
 
 	public void didCollide() {
-		setDelete(true);	
+		setLives(getLives() - 1);
+		checkForDeletion();	
 	}
 }

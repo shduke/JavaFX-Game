@@ -2,21 +2,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 
 public class EntityManager {
 	private ArrayList<Entity> entities;
 	private ArrayList<Projectile> projectiles;
+	private int additionalPoints;
 
 	EntityManager() {
 		entities = new ArrayList<Entity>();
 		projectiles = new ArrayList<Projectile>();
+		additionalPoints = 0;
 	}
 	
 	public void checkAllCollision() {
 		for(Projectile projectile : projectiles) {
 			for(Entity entity : entities) {
 				if (projectile.node.getBoundsInParent().intersects(entity.node.getBoundsInParent())) {
-				 	projectile.checkCollision(entity);
+					projectile.checkCollision(entity);
 				}
 			}
 		}
@@ -24,19 +29,24 @@ public class EntityManager {
 	
 	public void checkAllForDeletion(Group root) {
 		Iterator<Entity> iter = entities.iterator();
-		int before = entities.size();
 		while (iter.hasNext()) {
 			Entity entity = iter.next();
 			if(entity.getDelete()) {
 				entity.delete(root);
-				Boolean rootTest = root.getChildren().contains(entity);
 				iter.remove();
 				if(entity instanceof Projectile) {
 					projectiles.remove(entity);
 			}
 		}
 	}
-		int after = entities.size();
+	}
+	
+	public void setAdditionalPoints(int additionalPoints) {
+		this.additionalPoints = additionalPoints;
+	}
+	
+	public int getAdditionalPoints() {
+		return additionalPoints;
 	}
 	
 	public void addEntity(Entity entity) {

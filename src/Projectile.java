@@ -7,10 +7,13 @@ interface Collidable {
 }
 
 abstract public class Projectile extends Entity implements Collidable{
-
+	private Entity shooterNode;
+	
+	
 	Projectile(Entity shooterNode, Point2D spawn, EntityManager entityManager, String type) {
 		super(entityManager);
 		setName(type);
+		this.shooterNode = shooterNode;
         Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 100, 50, true, true);
 		node = new ImageView(image);
 		updateCoordinate(spawn.getX(), spawn.getY());
@@ -25,6 +28,7 @@ abstract public class Projectile extends Entity implements Collidable{
 		if(collider instanceof Damaged && ((Damaged) collider).getDamagedByTypes().contains(getName()) ) {
 			setDelete(true);
 			((Damaged) collider).didCollide();
+			//if(this instanceof Fork && collider instanceof Fowl)
 		}
 	}
 	

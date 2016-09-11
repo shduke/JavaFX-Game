@@ -10,6 +10,7 @@ public class Player extends Entity implements Damaged{
 
 	private int lives;
 	private int score;
+	private int level;
 	private int moveSpeed;
 	private int direction;
 	private ImageView playerNode; //not used
@@ -69,7 +70,7 @@ public class Player extends Entity implements Damaged{
 	}
 	
 	public void didCollide() {
-		lives -= 1;
+		setLives(getLives() - 1);
 		if(lives <= 0) {
 			setDelete(true);
 		}
@@ -112,6 +113,32 @@ public class Player extends Entity implements Damaged{
 			direction = -2;
 		}
 		updateCoordinate(coordinate.getX(), coordinate.getY() + moveSpeed);
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+	
+	public int getHealth() {
+		return lives;
+	}
+	
+	///update the lives
+	public void setLives(int newLives) {
+		lives = newLives;
+		
 	}
 
 }

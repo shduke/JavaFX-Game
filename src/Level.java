@@ -7,6 +7,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -31,8 +32,25 @@ public class Level {
 		Group root = new Group();
 		spawnEnemies(root);
 		player.setPlayerNode(root);
+		display(root);
 		return root;
 	}
+	
+	private Label displayLabel(String text, String id, Point2D coordinate) {
+		Label label = new Label(text);
+		label.setLayoutX(coordinate.getX());
+		label.setLayoutY(coordinate.getY());
+		label.setId(id);
+		return label;
+	}
+	
+	private void display(Group root) {
+		Label score = displayLabel("Score " + player.getScore(), "score", new Point2D(0,0));
+		Label level = displayLabel("" + player.getLevel(), "level", new Point2D(myScene.getWidth() / 2.1, 0));
+		Label lives = displayLabel("Lives " + player.getLives(), "lives", new Point2D(myScene.getWidth() / 1.1,0));
+		root.getChildren().addAll(score, level, lives);
+	}
+	
 	
 	private int generateRandIntInRange(int min, int max) {
 		Random rn = new Random();

@@ -2,10 +2,13 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -18,7 +21,8 @@ public class RoosterRoasterGame {
 	private Scene myScene;
 	private Player player;
 	private Group root;
-	private int level;
+	private int levelNumber;
+	private Level level;
 	private EntityManager entityManager;
 	
     /**
@@ -46,10 +50,13 @@ public class RoosterRoasterGame {
         gc.fillText( "Rooster Roaster", 60, 50 );
         gc.strokeText( "Rooster Roaster", 60, 50 );
         
+       // HBox hbox = new HBox();
+        //hbox.getChildren().addAll(new Label("Score"), new Label("Level"), new Label("Lives"));
+        
 		player = new Player(width / 2, height / 1.1, entityManager);
 		//player.setPlayerNode(root);
-		Level levelOne = new Level(1, player, myScene, entityManager);
-		root = levelOne.GenerateSceneGraph();
+		level = new Level(1, player, myScene, entityManager);
+		root = level.GenerateSceneGraph();
 		myScene.setRoot(root);
 		/*for(int i = 0; i < 10; i++) {
 			Point2D spawnPoint = new Point2D(width / 2 - i * 2, height / 2 - i * 2);
@@ -61,6 +68,7 @@ public class RoosterRoasterGame {
 		return myScene;
 	}
 	
+
 	
     //game-loop
 	public void step (double elapsedTime) {
@@ -68,8 +76,30 @@ public class RoosterRoasterGame {
 		entityManager.updateAllCoordinates(elapsedTime);
 		entityManager.checkAllCollision();
 		entityManager.checkAllForDeletion(root);
+		updateScore(entityManager.getAdditionalPoints());
+		entityManager.setAdditionalPoints(0);
+		updateDisplay();
 		//myScene.setRoot(root);
 	}
+
+	
+	public void updateScore(int points) {
+		player.setScore(player.getScore() + points);
+	}
+	
+	public void updateDisplay() {
+		updateLabel("#score", "Score " + player.getScore());
+		updateLabel("#level", "Level " + player.getLevel());
+		updateLabel("#lives", "Lives " + player.getLives());
+	}
+	
+	public void updateLabel(String id, String text) {
+		Node score = myScene.lookup(id);
+		if(score != null) {
+			((Label) score).setText(text); 
+		}
+	}
+	
 	
 	private void handleKeyRelease(KeyCode code) {
 		switch (code) {

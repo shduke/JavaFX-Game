@@ -4,4 +4,6 @@ public interface Damaged {
 	ArrayList<String> getDamagedByTypes();
 	
 	void didCollide();
-}
+	
+	int getLives();
+	}

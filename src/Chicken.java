@@ -11,6 +11,8 @@ public class Chicken extends Fowl{
 		setBulletType("egg");
 		setMoveSpeed(30);
 		addDamagedByType("fork");
+		setLives(1);
+		setPoints(10);
 	}
 
 	public void move(double elapsedTime) {
@@ -21,7 +23,8 @@ public class Chicken extends Fowl{
 	}
 	
 	public void didCollide() {
-		setDelete(true);	
+		setLives(getLives() - 1);
+		checkForDeletion();
 	}
 	
 	public void setBulletType(String bulletType) {

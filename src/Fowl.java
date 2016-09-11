@@ -15,6 +15,8 @@ abstract public class Fowl extends Entity implements Damaged{
 	private Point2D movementVector;
 	protected Bounds bounds;
 	private ArrayList<String> damagedByType = new ArrayList<String>();
+	private int lives;
+	private int points;
 	
 	Fowl(EntityManager entityManager, Point2D coordinate, String type) {
 		super(entityManager);
@@ -71,8 +73,31 @@ abstract public class Fowl extends Entity implements Damaged{
 		damagedByType.clear();
 	}
 	
+	public void checkForDeletion() {
+		if(lives <= 0) {
+			setDelete(true);
+			entityManager.setAdditionalPoints(entityManager.getAdditionalPoints() + getPoints());
+		}
+	}
+	
 	public ArrayList<String> getDamagedByTypes() {
 		return damagedByType;
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+	
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+	
+	public int getPoints() {
+		return points;
+	}
+	
+	public void setPoints(int points) {
+		this.points = points;
 	}
 	
 	abstract double getMoveSpeed();
