@@ -4,13 +4,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class BirdPoop extends Projectile{
-	private ImageView birdPoopNode;
 	private double moveSpeed;
 	
 
 	BirdPoop(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, entityManager, "bird_poop");
-		setName("bird_poop");
+		super(shooterNode, entityManager, "bird_Poop");
         Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 15, 15, true, true);
 		node = new ImageView(image);
 		updateCoordinate(spawn.getX(), spawn.getY());

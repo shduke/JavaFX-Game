@@ -21,7 +21,7 @@ public class Firing {
 		if(bulletType.equals("fork")) {
 			bullet = new Fork(shooter, projectileSpawnCoordinate, entityManager);
 		}
-		else if(bulletType.equals("bird_poop")) {
+		else if(bulletType.equals("bird_Poop")) {
 			bullet = new BirdPoop(shooter, projectileSpawnCoordinate, entityManager);
 		}
 		else {

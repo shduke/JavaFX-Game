@@ -8,22 +8,21 @@ interface Collidable {
 }
 
 abstract public class Projectile extends Entity implements Collidable{
-	private Entity shooterNode;
 	
 	
 	Projectile(Entity shooterNode, EntityManager entityManager, String type) {
 		super(entityManager);
 		setName(type);
-		this.shooterNode = shooterNode;
 		entityManager.addProjectile(this);
 	}
 	
 //	private ImageView bulletNode;
 //	private double moveSpeed;
 	
-
+//not reaching checkCollisions but lives going down
 	public void checkCollision(Entity collider) {
 		if(collider instanceof Damaged && ((Damaged) collider).getDamagedByTypes().contains(getName()) ) {
+			System.out.println(((Damaged) collider).getDamagedByTypes());
 			setDelete(true);
 			((Damaged) collider).didCollide();
 			//if(this instanceof Fork && collider instanceof Fowl)

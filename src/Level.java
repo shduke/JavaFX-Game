@@ -18,6 +18,7 @@ public class Level {
 	private Player player;
 	private Scene myScene;
 	private EntityManager entityManager;
+	private Timeline enemySpawning;
 	
 	//Should I just inherit from RRGame?
 	Level(Player player, Scene myScene, EntityManager entityManager) {
@@ -25,7 +26,8 @@ public class Level {
 		this.player = player;
 		this.myScene = myScene;
 		this.entityManager = entityManager;
-		enemies = level * 10;
+		//enemies = level * 10;
+		enemies = 1;
 	}
 	
 	public Group GenerateSceneGraph() {
@@ -44,7 +46,7 @@ public class Level {
 		return label;
 	}
 	
-	private void display(Group root) {
+	protected void display(Group root) {
 		Label score = displayLabel("Score " + player.getScore(), "score", new Point2D(0,0));
 		Label level = displayLabel("" + player.getLevel(), "level", new Point2D(myScene.getWidth() / 2.1, 0));
 		Label lives = displayLabel("Lives " + player.getLives(), "lives", new Point2D(myScene.getWidth() / 1.1,0));
@@ -78,9 +80,13 @@ public class Level {
 	}
 	
 	public void spawnEnemies(Group root) {
-		Timeline timer = new Timeline(new KeyFrame(Duration.millis(1000), e -> generateEnemy(root).setPlayerNode(root)));
-		timer.setCycleCount(enemies);
-		timer.play();
+		enemySpawning = new Timeline(new KeyFrame(Duration.millis(1000), e -> generateEnemy(root).setPlayerNode(root)));
+		enemySpawning.setCycleCount(enemies);
+		enemySpawning.play();
+	}
+
+	public void stopSpawning() {
+		enemySpawning.stop();
 	}
 	
 	public Point2D calcVector(Point2D start, Point2D end) {
@@ -113,5 +119,24 @@ public class Level {
 		return enemy;
 	}
 	
+	public void setEnemies(int enemies) {
+		this.enemies = enemies;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+	
+	public Scene getScene() {
+		return myScene;
+	}
+	
+	public int getEnemies() {
+		return enemies;
+	}
 	
 }

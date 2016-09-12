@@ -47,7 +47,7 @@ abstract public class Entity{
 	}
 	
 	public Point2D centerReal() {
-		Point2D centerRealCoordinate = new Point2D(coordinate.getX() + (node.getBoundsInLocal().getWidth() / 2), coordinate.getY() - (node.getBoundsInLocal().getHeight() / 2));
+		Point2D centerRealCoordinate = new Point2D(coordinate.getX() + (node.getBoundsInLocal().getWidth() / 2), coordinate.getY() + (node.getBoundsInLocal().getHeight() / 2));
 		return centerRealCoordinate;
 	}
 	

@@ -11,22 +11,22 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 abstract public class Fowl extends Entity implements Damaged{
-	private ImageView fowlNode;
 	private Firing firingDelegate;
 	private Point2D movementVector;
 	protected Bounds bounds;
 	private ArrayList<String> damagedByType = new ArrayList<String>();
 	private int lives;
 	private int points;
-	private Timeline shootTimer;
+	private ArrayList<Timeline> timelines = new ArrayList<Timeline>();
+	//private Timeline shootTimer;
 	private int fireRate;
+	private int moveSpeed;
 	
-	Fowl(EntityManager entityManager, Point2D coordinate, String type) {
+	Fowl(EntityManager entityManager, Point2D coordinate, String type, Point2D imageSize) {
 		super(entityManager);
 		setName(type);
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 30, 30, false, true);
+		Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), imageSize.getX(), imageSize.getY(), false, true);
 		node = new ImageView(image);
-		fowlNode = (ImageView)node;
 		Point2D adjustedPoint = adjustCoordinatesToJustOffEdge(coordinate);
 		updateCoordinate(adjustedPoint.getX(), adjustedPoint.getY());
 		//updateCoordinate(coordinate.getX(), coordinate.getY()); //delete this
@@ -37,10 +37,6 @@ abstract public class Fowl extends Entity implements Damaged{
 	
 	public void bounce() {
 		Bounds currentRectPosition = node.localToScene(node.getBoundsInLocal());
-		//System.out.println("Bounds " + bounds);
-		//System.out.println("Rect " + currentRectPosition);
-		//System.out.println(currentRectPosition.getMinX() + " " + currentRectPosition.getMaxX() + " " + currentRectPosition.getMinY() + " " + currentRectPosition.getMaxY());
-		//System.out.println("Vector " + movementVector + "  position" + coordinate);
 		if((currentRectPosition.getMinX() <= bounds.getMinX() && movementVector.getX() < 0) || (currentRectPosition.getMaxX() >= bounds.getMaxX() && movementVector.getX() > 0)) {
 			setMovementVector(new Point2D(movementVector.getX() * -1, movementVector.getY()));
 		}
@@ -50,15 +46,13 @@ abstract public class Fowl extends Entity implements Damaged{
 	}
 	
 	public void startShootTimer(Group root) {
-		shootTimer = new Timeline(new KeyFrame(Duration.millis(getFireRate()), e -> shoot(root)));
+		Timeline shootTimer = new Timeline(new KeyFrame(Duration.millis(getFireRate()), e -> shoot(root)));
 		shootTimer.setCycleCount(MediaPlayer.INDEFINITE);
 		shootTimer.play();
+		timelines.add(shootTimer);	
 	}
 	
 	abstract public void shoot(Group root);
-	/*public void shoot(Group root) {
-		firingDelegate.shoot(root, entityManager);
-	}*/
 	
 	
 	public void setBounds(Bounds bounds) {
@@ -84,14 +78,26 @@ abstract public class Fowl extends Entity implements Damaged{
 	public void checkForDeletion() {
 		if(lives <= 0) {
 			setDelete(true);
-			shootTimer.stop();
+			stopTimelines();
 			entityManager.setAdditionalPoints(entityManager.getAdditionalPoints() + getPoints());
 		}
+	}
+	
+	public void stopTimelines() {
+		for(Timeline timeline : timelines) {
+			timeline.stop();
+		}
+		timelines.clear();
+	}
+	
+	public void addTimeline(Timeline timeline){
+		timelines.add(timeline);
 	}
 	
 	public ArrayList<String> getDamagedByTypes() {
 		return damagedByType;
 	}
+	
 	
 	public int getLives() {
 		return lives;
@@ -117,10 +123,17 @@ abstract public class Fowl extends Entity implements Damaged{
 		this.fireRate = fireRate;
 	}
 	
+	public void setMoveSpeed(int moveSpeed) {
+		this.moveSpeed = moveSpeed;
+	}
+		
 	public int getFireRate() {
 		return fireRate;
 	}
 	
-	abstract double getMoveSpeed();
+	public double getMoveSpeed() {
+		return moveSpeed;
+	}
+	
 	
 }

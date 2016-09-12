@@ -32,7 +32,7 @@ public class Player extends Entity implements Damaged{
 		updateCoordinate(centerPoint.getX(), centerPoint.getY());
 		firingDelegate = new Firing(this);
 		addDamagedByType("egg");
-		addDamagedByType("bird_poop");
+		addDamagedByType("bird_Poop");
 		setName("player");
 	}
 	
@@ -47,8 +47,8 @@ public class Player extends Entity implements Damaged{
 	
 	private void loadAnimations(){
 		animation = new HashMap<String, Image>();
-		animation.put("LEFT", new Image(getClass().getClassLoader().getResourceAsStream("player_Left.jpeg"), 100, 100, false, true));
-		animation.put("RIGHT", new Image(getClass().getClassLoader().getResourceAsStream("player_Right.jpg"), 100, 100, false, true));
+		animation.put("LEFT", new Image(getClass().getClassLoader().getResourceAsStream("player_Left.png"), 100, 100, false, true));
+		animation.put("RIGHT", new Image(getClass().getClassLoader().getResourceAsStream("player_Right.png"), 100, 100, false, true));
 		animation.put("CENTER", new Image(getClass().getClassLoader().getResourceAsStream("player_Central.png"), 100, 100, false, true));
 
 	}
@@ -91,28 +91,28 @@ public class Player extends Entity implements Damaged{
 			direction = 1;
 		}
 		//myBouncer.setX(myBouncer.getX() + myBouncerDirection * BOUNCER_SPEED * elapsedTime);
-		updateCoordinate(coordinate.getX() + moveSpeed, coordinate.getY());
+		updateCoordinate(Math.min(coordinate.getX() + moveSpeed, 600 - node.getBoundsInLocal().getWidth()), coordinate.getY());
 	}
 	public void moveLeft() {
 		if(direction != -1) {
 			playerNode.setImage(animation.get("LEFT"));
 			direction = -1;
 		}
-		updateCoordinate(coordinate.getX() - moveSpeed, coordinate.getY());
+		updateCoordinate(Math.max(coordinate.getX() - moveSpeed, 0), coordinate.getY());
 	}
 	public void moveUp() {
 		if(direction != 2) {
 			playerNode.setImage(animation.get("CENTER"));
 			direction = 2;
 		}
-		updateCoordinate(coordinate.getX(), coordinate.getY() - moveSpeed);
+		updateCoordinate(coordinate.getX(), Math.max(coordinate.getY() - moveSpeed, 300));
 	}
 	public void moveDown() {
 		if(direction != -2) {
 			playerNode.setImage(animation.get("CENTER"));
 			direction = -2;
 		}
-		updateCoordinate(coordinate.getX(), coordinate.getY() + moveSpeed);
+		updateCoordinate(coordinate.getX(), Math.min(coordinate.getY() + moveSpeed, 600 - node.getBoundsInLocal().getHeight()));
 	}
 	
 	public int getScore() {

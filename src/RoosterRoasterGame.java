@@ -61,6 +61,7 @@ public class RoosterRoasterGame {
 	
 	public void checkGameOver() {
 		Boolean outcome = false;
+		//System.out.println(levelNumber + " " + player.getLives());
 		if(levelNumber >= 5) {
 			outcome = true;
 		} else if(player.getLives() > 0){
@@ -69,7 +70,7 @@ public class RoosterRoasterGame {
 		gameOver = new GameOver(myScene, outcome, player.getScore());
 		myScene.setRoot(gameOver.GameEnded());
 		myScene.setOnKeyPressed(e -> {});
-		myScene.setOnKeyReleased(e -> startMenu());
+		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
 	}
 
 	
@@ -84,6 +85,8 @@ public class RoosterRoasterGame {
 		updateScore(entityManager.getAdditionalPoints());
 		entityManager.setAdditionalPoints(0);
 		updateDisplay();
+		checkLevelComplete();
+		checkGameOver();
 		//myScene.setRoot(root);
 		}
 	}
@@ -114,12 +117,27 @@ public class RoosterRoasterGame {
 		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 		myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
 	}
+
+	public void checkLevelComplete() {
+		if(!entityManager.checkForEnemiesRemaining() && level.getEnemies() <= 0) {
+			nextLevel();
+		}
+	}
 	
 	public void nextLevel() {
 		entityManager.ClearAll(true);
 		levelNumber += 1;
 		player.setLevel(levelNumber);
-		level = new Level(player, myScene, entityManager);
+		checkGameOver();
+		if(levelNumber == 4) {
+			level = new BossLevel(player, myScene, entityManager);
+		} else if(levelNumber >= 5) {
+			checkGameOver();
+			return;
+		}
+		else {
+			level = new Level(player, myScene, entityManager);
+		}
 		root = level.GenerateSceneGraph();
 		myScene.setRoot(root);
 	}
@@ -169,14 +187,20 @@ public class RoosterRoasterGame {
             	startMenu();
             	break;
             case DIGIT1:
+            	entityManager.ClearAll(false);
+            	level.stopSpawning();
             	startGame();
             	break;
             case DIGIT2:
+            	level.stopSpawning();
             	nextLevel();
             	break;
             case DIGIT3:
+            	levelNumber = 3;
+            	level.stopSpawning();
+            	nextLevel();
             	break;
-            	//BOSSLEVEL;
+            	//BOSSLEVEL, scrolling background, box user movement, update rules/text;
             case DIGIT4:
         		gameOver = new GameOver(myScene, false, player.getScore());
         		myScene.setRoot(gameOver.GameEnded());

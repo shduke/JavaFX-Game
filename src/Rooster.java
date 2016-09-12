@@ -2,11 +2,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 
 public class Rooster extends Fowl{
-	private String bulletType;
-	private double moveSpeed;
 	
 	Rooster(EntityManager entityManager, Point2D coordinate) {
-		super(entityManager, coordinate, "rooster");
+		super(entityManager, coordinate, "rooster", new Point2D(30, 30));
 		setMoveSpeed(30);
 		addDamagedByType("fork");
 		setLives(2);
@@ -16,22 +14,14 @@ public class Rooster extends Fowl{
 
 	public void move(double elapsedTime) {
 		//System.out.println(coordinate + "   " + getMovementVector());
-		updateCoordinate(coordinate.getX() + getMovementVector().getX() * moveSpeed * elapsedTime, coordinate.getY() + getMovementVector().getY() * moveSpeed * elapsedTime);
+		updateCoordinate(coordinate.getX() + getMovementVector().getX() * getMoveSpeed() * elapsedTime, coordinate.getY() + getMovementVector().getY() * getMoveSpeed() * elapsedTime);
 		if(bounds != null) {
 			bounce();
 		}
 	}
 	
 	public void shoot(Group root) {
-		getFiringDelegate().shoot(root, entityManager, "bird_poop");
-	}
-	
-	public void setMoveSpeed(double moveSpeed) {
-		this.moveSpeed = moveSpeed;
-	}
-
-	double getMoveSpeed() {
-		return moveSpeed;
+		getFiringDelegate().shoot(root, entityManager, "bird_Poop");
 	}
 
 	public void didCollide() {
