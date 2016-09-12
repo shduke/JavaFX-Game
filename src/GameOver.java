@@ -10,6 +10,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Class that handles the Game Over scene of the Game.
+ * 
+ * @assumptions: Relies on other classes to handle level transitions.
+ * @example: GameOver(); gameOver.GenerateSceneGraph(myScene);
+ * @author seanhudson
+ */
 public class GameOver {
 	Boolean win;
 	int score;
@@ -20,6 +27,11 @@ public class GameOver {
 		this.myScene = myScene;
 	}
 	
+	/**
+	 * Creates the GameOver root node.
+	 * 
+	 * @return Group root node for the Scene graph
+	 */
 	public Group GameEnded() {
 		Group root = new Group();
 		generateOutcomeSceen(root, new Point2D(150, 100));
@@ -28,6 +40,13 @@ public class GameOver {
 		return root;
 	}
 	
+	/**
+	 * Generates the GameOver display.
+	 * 
+	 * @param root Group node for the scene graph.
+	 * @param coordinate Location of display text.
+	 * @return nothing
+	 */
 	private void generateOutcomeSceen(Group root, Point2D coordinate) {
         Canvas canvas = new Canvas(myScene.getWidth(), myScene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -40,6 +59,13 @@ public class GameOver {
         root.getChildren().add(canvas);
 	}
 	
+	/**
+	 * Generates the GameOver display text.
+	 * 
+	 * @param gc Graphics canvas of the scene to draw on.
+	 * @param coordinate Location of display text.
+	 * @return nothing
+	 */
 	private void conditionBasedGraphics(GraphicsContext gc, Point2D coordinate) {
 		String outcome;
 		if(win) {
@@ -53,6 +79,13 @@ public class GameOver {
         gc.strokeText("You " + outcome + "!", coordinate.getX(), coordinate.getY());
 	}
 	
+	/**
+	 * Generates the score label.
+	 * 
+	 * @param root Group node for the scene graph.
+	 * @param coordinate Location of display text.
+	 * @return nothing
+	 */
 	private void generateScoreLabel(Group root, Point2D coordinate) {
 		Label scoreLabel = new Label("Score " + score);
 		scoreLabel.setFont(new Font(48));
@@ -62,6 +95,13 @@ public class GameOver {
         root.getChildren().add(scoreLabel);
 	}
 	
+	/**
+	 * Generates the play again label.
+	 * 
+	 * @param root Group node for the scene graph.
+	 * @param coordinate Location of display text.
+	 * @return nothing
+	 */
 	private void generatePlayAgainLabel(Group root, Point2D coordinate) {
 		Label playAgainLabel = new Label("Press M to return to the menu");
 		playAgainLabel.setFont(new Font(28));

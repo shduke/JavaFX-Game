@@ -5,12 +5,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
 /**
- * This is the main program, it is basically boilerplate to create
- * an animated scene.
+ * Main class for creating an animated scene.
  * 
- * @author Robert C. Duvall
+ * @author seanhudson
  */
 public class Main extends Application {
     public static final int SIZE = 600;
@@ -22,20 +20,19 @@ public class Main extends Application {
 
 
     /**
-     * Set things up at the beginning.
+     * Sets the Game up at the beginning.
+     * 
+     * @return nothing
      */
     @Override
     public void start (Stage s) {
-        // create your own game here
         myGame = new RoosterRoasterGame();
         s.setTitle(myGame.getTitle());
 
-        // attach game to the stage and display it
         Scene scene = myGame.init(SIZE, SIZE);
         s.setScene(scene);
         s.show();
 
-        // sets the game's loop
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
                                       e -> myGame.step(SECOND_DELAY));
         Timeline animation = new Timeline();
@@ -46,6 +43,8 @@ public class Main extends Application {
 
     /**
      * Start the program.
+     * 
+     * @return nothing
      */
     public static void main (String[] args) {
         launch(args);

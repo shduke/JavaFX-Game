@@ -20,6 +20,14 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Class that handles the Game.
+ * 
+ * @assumptions: Only one instance of the game class.
+ * @dependancies: Level, Entity, Fowl, Firing, EntityManager, Player, GameOver, Menu, BossLevel
+ * @example: RoosterRoasterGame()
+ * @author seanhudson
+ */
 public class RoosterRoasterGame {
     public static final String TITLE = "Rooster Roaster";
     public static final int KEY_INPUT_SPEED = 5;
@@ -35,12 +43,20 @@ public class RoosterRoasterGame {
 	
     /**
      * Returns name of the game.
+     * 
+     * @return TITLE
      */
     public String getTitle () {
         return TITLE;
     }
 	
-	//initializes the starting Scene graph
+    /**
+     * Initializes the starting Scene graph with a Menu root node.
+     * 
+     * @param width Application window width
+     * @param height Application window height
+     * @return Game scene
+     */
 	public Scene init(int width, int height) {
         root = new Group();
 		myScene = new Scene(root, width, height, Color.WHITE);
@@ -51,6 +67,11 @@ public class RoosterRoasterGame {
 		return myScene;
 	}
 	
+	/**
+	 * Sets the scene to the Menu root.
+	 * 
+	 * @return nothing
+	 */
 	public void startMenu() {
 		levelNumber = 0;
 		Menu menu = new Menu();
@@ -61,6 +82,11 @@ public class RoosterRoasterGame {
 		myScene.setOnKeyReleased(e -> handleMenuKeyReleased(e.getCode()));
 	}
 	
+	/**
+	 * Generates the scrolling background.
+	 * 
+	 * @return nothing
+	 */
 	public void generateBackground() {
         Image imageBackground = new Image(getClass().getClassLoader().getResourceAsStream("star_GIF.gif"), myScene.getWidth(), myScene.getHeight(), false, true);
 		ImageView bgNode = new ImageView(imageBackground);
@@ -68,29 +94,32 @@ public class RoosterRoasterGame {
 		addBackground();
 	}
 	
+	/**
+	 * Adds the background to the current root.
+	 * 
+	 * @return nothing
+	 */
 	public void addBackground() {
 		root.getChildren().add(0, background);
 	}
 	
-	/*public void checkGameOver() {
-		Boolean outcome = false;
-		//System.out.println(levelNumber + " " + player.getLives());
-		if(levelNumber >= 5) {
-			outcome = true;
-		} else if(player.getLives() > 0){
-			return;
-		}
-		startOutcome(outcome);
-	}*/
-	
+	/**
+	 * Checks to see if the game is lost by looking at the player lives remaining.
+	 * 
+	 * @return nothing
+	 */
 	public void checkLoss() {
 		if(player.getLives() <= 0) {
 			startOutcome(false);
 		}
 	}
 
-	
-    //game-loop
+	/**
+	 * GameLoop - updates every the screen 60 FPS.
+	 * 
+	 * @param elapsedTime FRAME_DELAY
+	 * @return nothing
+	 */
 	public void step (double elapsedTime) {
 		if(levelNumber != 0) {
 		entityManager.updateAllCoordinates(elapsedTime);
@@ -103,21 +132,37 @@ public class RoosterRoasterGame {
 		updateDisplay();
 		checkLevelComplete();
 		checkLoss();
-		//myScene.setRoot(root);
 		}
 	}
 
-	
+	/**
+	 * Sets the player's score.
+	 * 
+	 * @param points New score value
+	 * @return nothing
+	 */
 	public void updateScore(int points) {
 		player.setScore(player.getScore() + points);
 	}
 	
+	/**
+	 * Updates all the display labels
+	 * 
+	 * @return nothing
+	 */
 	public void updateDisplay() {
 		updateLabel("#score", "Score " + player.getScore());
 		updateLabel("#level", "Level " + player.getLevel());
 		updateLabel("#lives", "Lives " + player.getLives());
 	}
 	
+	/**
+	 * Updates the text field of a specified label.
+	 * 
+	 * @param id Label id
+	 * @param text Label text
+	 * @return nothing
+	 */
 	public void updateLabel(String id, String text) {
 		Node score = myScene.lookup(id);
 		if(score != null) {
@@ -125,6 +170,11 @@ public class RoosterRoasterGame {
 		}
 	}
 	
+	/**
+	 * Starts the first level.
+	 * 
+	 * @return nothing
+	 */
 	public void startGame() {
 		levelNumber = 0;
 		entityManager = new EntityManager();
@@ -134,17 +184,26 @@ public class RoosterRoasterGame {
 		myScene.setOnKeyReleased(e -> handleKeyRelease(e.getCode()));
 	}
 
+	/**
+	 * Checks to make sure each level is complete before moving to the next one.
+	 * 
+	 * @return nothing
+	 */
 	public void checkLevelComplete() {
 		if(!entityManager.checkForEnemiesRemaining() && level.getEnemies() <= 0) {
 			nextLevel();
 		}
 	}
 	
+	/**
+	 * Transitions to the next level.
+	 * 
+	 * @return nothing
+	 */
 	public void nextLevel() {
 		entityManager.ClearAll(true);
 		levelNumber += 1;
 		player.setLevel(levelNumber);
-		//checkGameOver();
 		if(levelNumber == 4) {
 			level = new BossLevel(player, myScene, entityManager);
 		} else if(levelNumber >= 5) {
@@ -159,33 +218,12 @@ public class RoosterRoasterGame {
 		myScene.setRoot(root);
 	}
 	
-	private void handleMenuKeyReleased(KeyCode code) {
-		switch (code) {
-			case SPACE:
-				startGame();
-				break;
-			default:
-		}
-	}
-	
-	private void handleGameOverKeyReleased(KeyCode code) {
-		switch (code) {
-			case M:
-				startMenu();
-				break;
-			default:
-		}
-	}
-	
-	private void handleKeyRelease(KeyCode code) {
-		switch (code) {
-			case SPACE:
-            	player.shoot((Group)myScene.getRoot());
-            	break;
-        	default:
-		}
-	}
-	
+	/**
+	 * Starts the Game ended Screen.
+	 * 
+	 * @param didWin Whether the player won or not.
+	 * @return nothing
+	 */
 	private void startOutcome(boolean didWin) {
     	level.stopSpawning();
 		gameOver = new GameOver(myScene, didWin, player.getScore());
@@ -197,6 +235,57 @@ public class RoosterRoasterGame {
 		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
 	}
 	
+	/**
+	 * Specifies the keyReleased input for the menu screen.
+	 * 
+	 * @param code Key input
+	 * @return nothing
+	 */
+	private void handleMenuKeyReleased(KeyCode code) {
+		switch (code) {
+			case SPACE:
+				startGame();
+				break;
+			default:
+		}
+	}
+	
+	/**
+	 * Specifies the keyReleased input for the GameOver screen.
+	 * 
+	 * @param code Key input
+	 * @return nothing
+	 */
+	private void handleGameOverKeyReleased(KeyCode code) {
+		switch (code) {
+			case M:
+				startMenu();
+				break;
+			default:
+		}
+	}
+	
+	/**
+	 * Specifies the keyReleased input for each Level.
+	 * 
+	 * @param code Key input
+	 * @return nothing
+	 */
+	private void handleKeyRelease(KeyCode code) {
+		switch (code) {
+			case SPACE:
+            	player.shoot((Group)myScene.getRoot());
+            	break;
+        	default:
+		}
+	}
+	
+	/**
+	 * Specifies the key input for each level.
+	 * 
+	 * @param code Key input
+	 * @return nothing
+	 */
     private void handleKeyInput (KeyCode code) {
         switch (code) {
             case RIGHT:

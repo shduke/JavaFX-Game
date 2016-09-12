@@ -10,10 +10,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-//name, levels, rules, controls
+/**
+ * Class that handles the menu of the Game.
+ * 
+ * @assumptions: Relies on other classes to handle level transitions.
+ * @example: Menu(); menu.GenerateSceneGraph(myScene);
+ * @author seanhudson
+ */
 public class Menu {
 
-	
+	/**
+	 * Creates the Menu root node.
+	 * 
+	 * @param myScene The Game's scene.
+	 * @return Group root node for the Scene graph
+	 */
 	public Group GenerateSceneGraph(Scene myScene) {
 		Group root = new Group();
 		generateMenuText(root, new Point2D(myScene.getWidth() / 2, myScene.getHeight() / 2));
@@ -22,6 +33,13 @@ public class Menu {
 		return root;
 	}
 	
+	/**
+	 * Generates the Menu display text.
+	 * 
+	 * @param root Group node for the scene graph.
+	 * @param coordinate Location of display text.
+	 * @return nothing
+	 */
 	private void generateMenuText(Group root, Point2D coordinate) {
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("menu_Text.png"), 450, 200, true, true);
 		ImageView menuText = new ImageView(image);
@@ -30,6 +48,13 @@ public class Menu {
         root.getChildren().add(menuText);
 	}
 	
+	/**
+	 * Generates the Menu banner display.
+	 * 
+	 * @param root Group node for the scene graph.
+	 * @param coordinate Location of display text.
+	 * @return nothing
+	 */
 	private void generateBanner(Group root, Point2D coordinate) {
         Canvas canvas = new Canvas(600, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -43,6 +68,13 @@ public class Menu {
         root.getChildren().add(canvas);
 	}
 	
+	/**
+	 * Generates the rooster image.
+	 * 
+	 * @param root Group node for the scene graph.
+	 * @param coordinate Location of display text.
+	 * @return nothing
+	 */
 	private void generateRoosterImage(Group root, Point2D coordinate) {
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("rooster.png"), 100, 100, true, true);
 		ImageView rooster = new ImageView(image);
