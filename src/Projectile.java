@@ -10,7 +10,7 @@ interface Collidable {
 abstract public class Projectile extends Entity implements Collidable{
 	private Point2D directionVector = new Point2D(0,1);
 	
-	Projectile(Entity shooterNode, EntityManager entityManager, String type) {
+	Projectile(EntityManager entityManager, String type) {
 		super(entityManager);
 		setName(type);
 		entityManager.addProjectile(this);

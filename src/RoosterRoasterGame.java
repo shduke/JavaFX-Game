@@ -72,7 +72,7 @@ public class RoosterRoasterGame {
 		root.getChildren().add(0, background);
 	}
 	
-	public void checkGameOver() {
+	/*public void checkGameOver() {
 		Boolean outcome = false;
 		//System.out.println(levelNumber + " " + player.getLives());
 		if(levelNumber >= 5) {
@@ -81,6 +81,12 @@ public class RoosterRoasterGame {
 			return;
 		}
 		startOutcome(outcome);
+	}*/
+	
+	public void checkLoss() {
+		if(player.getLives() <= 0) {
+			startOutcome(false);
+		}
 	}
 
 	
@@ -96,7 +102,7 @@ public class RoosterRoasterGame {
 		entityManager.setAdditionalPoints(0);
 		updateDisplay();
 		checkLevelComplete();
-		checkGameOver();
+		checkLoss();
 		//myScene.setRoot(root);
 		}
 	}
@@ -142,7 +148,7 @@ public class RoosterRoasterGame {
 		if(levelNumber == 4) {
 			level = new BossLevel(player, myScene, entityManager);
 		} else if(levelNumber >= 5) {
-			checkGameOver();
+			startOutcome(true);
 			return;
 		}
 		else {
@@ -223,6 +229,7 @@ public class RoosterRoasterGame {
             	nextLevel();
             	break;
             case DIGIT4:
+            	player.setLives(0);
             	startOutcome(false);
             	break;
             case DIGIT5:

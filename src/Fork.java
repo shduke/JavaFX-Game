@@ -8,8 +8,8 @@ public class Fork extends Projectile{
 	private double moveSpeed;
 	
 
-	Fork(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, entityManager, "fork");
+	Fork(Point2D spawn, EntityManager entityManager) {
+		super(entityManager, "fork");
         Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 50, 50, true, true);
 		node = new ImageView(image);
 		updateCoordinate(spawn.getX(), spawn.getY());

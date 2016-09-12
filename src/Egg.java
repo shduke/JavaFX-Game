@@ -7,8 +7,8 @@ public class Egg extends Projectile{
 	private double moveSpeed;
 	
 
-	Egg(Entity shooterNode, Point2D spawn, EntityManager entityManager) {
-		super(shooterNode, entityManager, "egg");
+	Egg(Point2D spawn, EntityManager entityManager) {
+		super(entityManager, "egg");
 		setName("egg");
         Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 20, 30, true, true);
 		node = new ImageView(image);

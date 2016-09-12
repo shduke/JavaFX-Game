@@ -24,13 +24,13 @@ public class Firing {
 		projectileSpawnCoordinate = new Point2D(shooter.centerReal().getX(), shooter.centerReal().getY());
 		Projectile bullet;
 		if(bulletType.equals("fork")) {
-			bullet = new Fork(shooter, projectileSpawnCoordinate, entityManager);
+			bullet = new Fork(projectileSpawnCoordinate, entityManager);
 		}
 		else if(bulletType.equals("bird_Poop")) {
-			bullet = new BirdPoop(shooter, projectileSpawnCoordinate, entityManager);
+			bullet = new BirdPoop(projectileSpawnCoordinate, entityManager);
 		}
 		else {
-			bullet = new Egg(shooter, projectileSpawnCoordinate, entityManager);
+			bullet = new Egg(projectileSpawnCoordinate, entityManager);
 		}
 		bullet.setPlayerNode(root);
 		return bullet;
