@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -28,6 +30,8 @@ public class RoosterRoasterGame {
 	private Level level;
 	private EntityManager entityManager;
 	private GameOver gameOver;
+	private ImageView background;
+	
 	
     /**
      * Returns name of the game.
@@ -40,6 +44,7 @@ public class RoosterRoasterGame {
 	public Scene init(int width, int height) {
         root = new Group();
 		myScene = new Scene(root, width, height, Color.WHITE);
+		generateBackground();
 		startMenu();
 		myScene.setRoot(root);
 		myScene.setOnKeyPressed(e -> handleGameOverKeyReleased(e.getCode()));
@@ -50,9 +55,21 @@ public class RoosterRoasterGame {
 		levelNumber = 0;
 		Menu menu = new Menu();
 		root = menu.GenerateSceneGraph(myScene);
+		addBackground();
 		myScene.setRoot(root); //redundant
 		myScene.setOnKeyPressed(e -> {});
 		myScene.setOnKeyReleased(e -> handleMenuKeyReleased(e.getCode()));
+	}
+	
+	public void generateBackground() {
+        Image imageBackground = new Image(getClass().getClassLoader().getResourceAsStream("star_GIF.gif"), myScene.getWidth(), myScene.getHeight(), false, true);
+		ImageView bgNode = new ImageView(imageBackground);
+		background = bgNode;
+		addBackground();
+	}
+	
+	public void addBackground() {
+		root.getChildren().add(0, background);
 	}
 	
 	public void checkGameOver() {
@@ -63,10 +80,7 @@ public class RoosterRoasterGame {
 		} else if(player.getLives() > 0){
 			return;
 		}
-		gameOver = new GameOver(myScene, outcome, player.getScore());
-		myScene.setRoot(gameOver.GameEnded());
-		myScene.setOnKeyPressed(e -> {});
-		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
+		startOutcome(outcome);
 	}
 
 	
@@ -124,7 +138,7 @@ public class RoosterRoasterGame {
 		entityManager.ClearAll(true);
 		levelNumber += 1;
 		player.setLevel(levelNumber);
-		checkGameOver();
+		//checkGameOver();
 		if(levelNumber == 4) {
 			level = new BossLevel(player, myScene, entityManager);
 		} else if(levelNumber >= 5) {
@@ -135,6 +149,7 @@ public class RoosterRoasterGame {
 			level = new Level(player, myScene, entityManager);
 		}
 		root = level.GenerateSceneGraph();
+		addBackground();
 		myScene.setRoot(root);
 	}
 	
@@ -163,6 +178,17 @@ public class RoosterRoasterGame {
             	break;
         	default:
 		}
+	}
+	
+	private void startOutcome(boolean didWin) {
+    	level.stopSpawning();
+		gameOver = new GameOver(myScene, didWin, player.getScore());
+		entityManager.ClearAll(false);
+		root = gameOver.GameEnded();
+		addBackground();
+		myScene.setRoot(root);
+		myScene.setOnKeyPressed(e -> {});
+		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
 	}
 	
     private void handleKeyInput (KeyCode code) {
@@ -196,20 +222,18 @@ public class RoosterRoasterGame {
             	level.stopSpawning();
             	nextLevel();
             	break;
-            	//BOSSLEVEL, scrolling background, box user movement, update rules/text;
             case DIGIT4:
-        		gameOver = new GameOver(myScene, false, player.getScore());
-        		myScene.setRoot(gameOver.GameEnded());
-        		myScene.setOnKeyPressed(e -> {});
-        		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
+            	startOutcome(false);
             	break;
             case DIGIT5:
-        		gameOver = new GameOver(myScene, true, player.getScore());
-        		myScene.setRoot(gameOver.GameEnded());
-        		myScene.setOnKeyPressed(e -> {});
-        		myScene.setOnKeyReleased(e -> handleGameOverKeyReleased(e.getCode()));
+            	startOutcome(true);
             	break;
-            	
+           case EQUALS:
+            	player.setLives(player.getLives() + 1);
+            	break;
+            case MINUS:
+            	player.setLives(player.getLives() - 1);
+            	break;
             default:
         }
     }

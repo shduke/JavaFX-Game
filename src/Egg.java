@@ -16,10 +16,6 @@ public class Egg extends Projectile{
 		setMoveSpeed(60);
 	}
 	
-	/*public void move(double elapsedTime) {
-		updateCoordinate(coordinate.getX(), coordinate.getY() + moveSpeed * elapsedTime);
-	}*/
-	
 	public void setMoveSpeed(double speed) {
 		moveSpeed = speed;
 	}

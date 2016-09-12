@@ -13,7 +13,7 @@ public class Fork extends Projectile{
         Image image = new Image(getClass().getClassLoader().getResourceAsStream(getName() + ".png"), 50, 50, true, true);
 		node = new ImageView(image);
 		updateCoordinate(spawn.getX(), spawn.getY());
-		setMoveSpeed(-50);
+		setMoveSpeed(-70);
 	}
 	
 	public void setMoveSpeed(double speed) {

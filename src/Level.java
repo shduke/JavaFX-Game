@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
 public class Level {
@@ -39,6 +40,7 @@ public class Level {
 	
 	private Label displayLabel(String text, String id, Point2D coordinate) {
 		Label label = new Label(text);
+		label.setTextFill(Paint.valueOf("GREY"));
 		label.setLayoutX(coordinate.getX());
 		label.setLayoutY(coordinate.getY());
 		label.setId(id);
@@ -85,7 +87,9 @@ public class Level {
 	}
 
 	public void stopSpawning() {
-		enemySpawning.stop();
+		if(enemySpawning != null) {
+			enemySpawning.stop();
+		}
 	}
 	
 	public Point2D calcVector(Point2D start, Point2D end) {

@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -28,7 +29,7 @@ public class GameOver {
 	}
 	
 	private void generateOutcomeSceen(Group root, Point2D coordinate) {
-        Canvas canvas = new Canvas(600, 600);
+        Canvas canvas = new Canvas(myScene.getWidth(), myScene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill( Color.GREEN);
         gc.setStroke( Color.BLACK);
@@ -55,7 +56,8 @@ public class GameOver {
 	private void generateScoreLabel(Group root, Point2D coordinate) {
 		Label scoreLabel = new Label("Score " + score);
 		scoreLabel.setFont(new Font(48));
-		scoreLabel.setLayoutX(coordinate.getX() - 125);
+		scoreLabel.setTextFill(Paint.valueOf("GREY"));
+		scoreLabel.setLayoutX(coordinate.getX() - 100);
 		scoreLabel.setLayoutY(coordinate.getY());
         root.getChildren().add(scoreLabel);
 	}
@@ -63,6 +65,7 @@ public class GameOver {
 	private void generatePlayAgainLabel(Group root, Point2D coordinate) {
 		Label playAgainLabel = new Label("Press M to return to the menu");
 		playAgainLabel.setFont(new Font(28));
+		playAgainLabel.setTextFill(Paint.valueOf("GREY"));
 		playAgainLabel.setLayoutX(coordinate.getX());
 		playAgainLabel.setLayoutY(coordinate.getY());
         root.getChildren().add(playAgainLabel);

@@ -29,7 +29,6 @@ public class EntityManager {
 	}
 	
 	public void checkAllForDeletion(Group root) {
-		System.out.println(entities.size() + " " + entities.toString() + ":" + projectiles.size() +  "" + projectiles.toString());
 		Iterator<Entity> iter = entities.iterator();
 		while (iter.hasNext()) {
 			Entity entity = iter.next();
@@ -77,7 +76,7 @@ public class EntityManager {
 		}
 	}
 	
-	public void ClearAll(Boolean keepPlayer) {
+	/*public void ClearAll(Boolean keepPlayer) {
 		if(keepPlayer){
 			Player player = null;
 			for(Entity entity: entities) {
@@ -94,7 +93,27 @@ public class EntityManager {
 		}
 		projectiles.clear();
 		setAdditionalPoints(0);
+	}*/
+	
+	public void ClearAll(Boolean keepPlayer) {
+		Player player = null;
+		for(Entity entity: entities) {
+			entity.setDelete(true);
+			if(entity instanceof Player && keepPlayer) {
+				player = (Player)entity;
+				player.setDelete(false);
+			} else if (entity instanceof Fowl) {
+				((Fowl) entity).stopTimelines();
+			}
+		}
+		entities.clear();
+		if(player != null) {
+			entities.add(player);
+		}
+		projectiles.clear();
+		setAdditionalPoints(0);
 	}
+	
 	
 	//!!!is this fine???!!!
 	public Boolean checkForEnemiesRemaining() {
