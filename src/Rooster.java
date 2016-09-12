@@ -7,9 +7,9 @@ public class Rooster extends Fowl{
 		super(entityManager, coordinate, "rooster", new Point2D(30, 30));
 		setMoveSpeed(30);
 		addDamagedByType("fork");
-		setLives(2);
+		setLives(1);
 		setPoints(20);
-		setFireRate(8000);
+		setFireRate(7000);
 	}
 
 	public void move(double elapsedTime) {

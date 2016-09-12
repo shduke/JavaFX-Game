@@ -26,8 +26,7 @@ public class Level {
 		this.player = player;
 		this.myScene = myScene;
 		this.entityManager = entityManager;
-		//enemies = level * 10;
-		enemies = 1;
+		enemies = level * 10;
 	}
 	
 	public Group GenerateSceneGraph() {

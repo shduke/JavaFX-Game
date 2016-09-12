@@ -40,11 +40,7 @@ public class RoosterRoasterGame {
 	public Scene init(int width, int height) {
         root = new Group();
 		myScene = new Scene(root, width, height, Color.WHITE);
-		//startMenu();
-		/*Menu menu = new Menu();
-		root = menu.GenerateSceneGraph(myScene);*/
-		GameOver go = new GameOver(myScene, true, 100);
-		Group root = go.GameEnded();
+		startMenu();
 		myScene.setRoot(root);
 		myScene.setOnKeyPressed(e -> handleGameOverKeyReleased(e.getCode()));
 		return myScene;

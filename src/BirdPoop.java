@@ -15,9 +15,9 @@ public class BirdPoop extends Projectile{
 		setMoveSpeed(30);
 	}
 	
-	public void move(double elapsedTime) {
+	/*public void move(double elapsedTime) {
 		updateCoordinate(coordinate.getX(), coordinate.getY() + moveSpeed * elapsedTime);
-	}
+	}*/
 	
 	public void setMoveSpeed(double speed) {
 		moveSpeed = speed;

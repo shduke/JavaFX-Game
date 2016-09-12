@@ -13,9 +13,14 @@ public class Firing {
 		this.shooter = shooter;
 	}
 	
+	public Projectile shoot(Group root, EntityManager entityManager, String bulletType, int degrees) {
+		Projectile bullet = shoot(root, entityManager, bulletType);
+		bullet.setDirectionVector(bullet.calcDirectionVector(degrees));
+		return bullet;
+	}
 	
 	//Reflection to figure out what bullet to use?
-	public void shoot(Group root, EntityManager entityManager, String bulletType) {
+	public Projectile shoot(Group root, EntityManager entityManager, String bulletType) {
 		projectileSpawnCoordinate = new Point2D(shooter.centerReal().getX(), shooter.centerReal().getY());
 		Projectile bullet;
 		if(bulletType.equals("fork")) {
@@ -28,5 +33,6 @@ public class Firing {
 			bullet = new Egg(shooter, projectileSpawnCoordinate, entityManager);
 		}
 		bullet.setPlayerNode(root);
+		return bullet;
 	}
 }

@@ -10,7 +10,7 @@ public class Chicken extends Fowl{
 		super(entityManager, coordinate, "chicken", new Point2D(30, 30));
 		setMoveSpeed(30);
 		addDamagedByType("fork");
-		setLives(1);
+		setLives(2);
 		setPoints(10);
 		setFireRate(10000);
 	}

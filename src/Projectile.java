@@ -8,7 +8,7 @@ interface Collidable {
 }
 
 abstract public class Projectile extends Entity implements Collidable{
-	
+	private Point2D directionVector = new Point2D(0,1);
 	
 	Projectile(Entity shooterNode, EntityManager entityManager, String type) {
 		super(entityManager);
@@ -22,7 +22,6 @@ abstract public class Projectile extends Entity implements Collidable{
 //not reaching checkCollisions but lives going down
 	public void checkCollision(Entity collider) {
 		if(collider instanceof Damaged && ((Damaged) collider).getDamagedByTypes().contains(getName()) ) {
-			System.out.println(((Damaged) collider).getDamagedByTypes());
 			setDelete(true);
 			((Damaged) collider).didCollide();
 			//if(this instanceof Fork && collider instanceof Fowl)
@@ -36,7 +35,20 @@ abstract public class Projectile extends Entity implements Collidable{
 	}
 	
 	public void move(double elapsedTime) {
-		updateCoordinate(coordinate.getX(), coordinate.getY() + getMoveSpeed() * elapsedTime);
+		Point2D test = getDirectionVector();
+		updateCoordinate(coordinate.getX() + getMoveSpeed() * getDirectionVector().getX() * elapsedTime , coordinate.getY() + getMoveSpeed() * getDirectionVector().getY() * elapsedTime);
+	}
+	
+	public Point2D calcDirectionVector(int degrees) {
+		return new Point2D(Math.cos(degrees), Math.sin(degrees));
+	}
+	
+	public void setDirectionVector(Point2D directionVector) {
+		this.directionVector = directionVector;
+	}
+	
+	public Point2D getDirectionVector() {
+		return directionVector;
 	}
 	
 	abstract void setMoveSpeed(double speed);

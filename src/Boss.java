@@ -14,7 +14,7 @@ public class Boss extends Fowl {
 		addDamagedByType("fork");
 		setLives(20);
 		setPoints(500);
-		setFireRate(6000);
+		setFireRate(5000);
 		//Point2D centerCoordinate = centerAdjusted(coordinate.getX(), coordinate.getY());
 		Point2D fowlSpawnCoordinate = adjustCoordinatesToJustOffEdge(coordinate);
 		updateCoordinate(fowlSpawnCoordinate.getX(), fowlSpawnCoordinate.getY());
@@ -27,7 +27,7 @@ public class Boss extends Fowl {
 	}
 	
 	public void startSpecialAttackShootTimer(Group root) {
-		specialAttackShootTimer = new Timeline(new KeyFrame(Duration.millis(12000), e -> specialAttack(root)));
+		specialAttackShootTimer = new Timeline(new KeyFrame(Duration.millis(10000), e -> specialAttack(root)));
 		specialAttackShootTimer.setCycleCount(MediaPlayer.INDEFINITE);
 		specialAttackShootTimer.play();
 		addTimeline(specialAttackShootTimer);
@@ -40,7 +40,9 @@ public class Boss extends Fowl {
 	}
 	
 	public void specialAttack(Group root) {
-		getFiringDelegate().shoot(root, entityManager, "egg");
+		for(int i = 0; i < 360; i += 45) {
+			getFiringDelegate().shoot(root, entityManager, "egg", i);
+		}
 	}
 
 
