@@ -5,6 +5,11 @@ First project for CompSci 308 Fall 2016
 
 Authors: Sean Hudson  
 Consulted: Rhondu (TA) and Eric (TA)
+Started 9/02/16 - Ended 9/12/16
+Time spent: 30 hours
+Given start files: Main, ExampleGame (core components were if Example game were put in RoosterRoasterGame)
+Consulted StackOverFlow for javafx related questions
+
 
 #### Concept
 Rooster Roaster is a 2-D space invaders like game where the 
@@ -35,3 +40,7 @@ over.
   * "5" - Goes to game over win screen
   * "=" - Add a life
   * "-" - Subtract a life
+  
+#### Suggested improvements
+  * Give a suggestion on how to deal with scene changes
+  * Talk about tradition game design
