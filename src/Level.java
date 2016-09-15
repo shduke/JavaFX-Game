@@ -1,24 +1,28 @@
+// This entire file is part of my masterpiece.
+// Sean Hudson
 import java.util.Random;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
 /**
  * Class that handles each level of the Game.
  * 
+ * I consider this class to be part of my masterpiece because I think it provides a great example
+ * of extracting methods. The processes through which I generate my direction vector, enemy spawn coordinates
+ * and display labels are very concise and easy to follow. Since extract method was the main refactoring
+ * tool we were equipped with to do this assignment I think this file is worthy of being a part of my masterpiece.
+ * 
  * @assumptions: Relies on other classes to handle level transitions.
  * @dependancies: Level, Entity, Fowl, Firing, EntityManager, Player
- * @example: BLevel(player, myScene, entityManager); bossLevel.GenerateSceneGraph()
+ * @example: Level(player, myScene, entityManager); level.GenerateSceneGraph()
  * @author seanhudson
  */
 public class Level {
@@ -187,7 +191,6 @@ public class Level {
 	 */
 	private Fowl generateEnemy(Group root) {
 		Point2D spawnCoordinate = generateFowlSpawnCoordinate();
-		//System.out.println("SpawnC: " + spawnCoordinate);
 		Fowl enemy;
 		if(enemies % 2 == 0) {
 			enemy =  new Chicken(entityManager, spawnCoordinate);
